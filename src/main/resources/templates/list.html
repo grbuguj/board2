@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Member List - Space Themed UI</title>
+  <style>
+    /* 전체 배경: 우주 느낌의 그라데이션 */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: radial-gradient(ellipse at bottom, #1e3c72 0%, #2a5298 100%);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    /* 행성 요소: 배경에 추가되는 원형 디자인 */
+    .planet {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+    .planet1 {
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, #ffcc33, #ff9900);
+      top: 10%;
+      left: 5%;
+      box-shadow: 0 0 20px #ff9900;
+    }
+    .planet2 {
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, #66ccff, #3366ff);
+      bottom: 15%;
+      right: 10%;
+      box-shadow: 0 0 15px #3366ff;
+    }
+    .planet3 {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #ff6699, #cc3366);
+      top: 60%;
+      right: 20%;
+      box-shadow: 0 0 10px #cc3366;
+    }
+
+    /* 중앙 컨테이너: 테이블 영역 */
+    .container {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    /* 제목 스타일 */
+    h2 {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      margin-bottom: 20px;
+    }
+
+    /* 테이블 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+    }
+    th {
+      background-color: rgba(0, 0, 0, 0.3);
+      font-weight: bold;
+    }
+    tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    a {
+      color: #00ccff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    a:hover {
+      color: #66ccff;
+    }
+  </style>
+</head>
+<body>
+<!-- 행성 요소들 -->
+<div class="planet planet1"></div>
+<div class="planet planet2"></div>
+<div class="planet planet3"></div>
+
+<!-- 중앙 컨테이너: 회원 목록 테이블 -->
+<div class="container">
+  <h2>Member List</h2>
+  <table>
+    <tr>
+      <th>id</th>
+      <th>이메일</th>
+      <th>비밀번호</th>
+      <th>이름</th>
+      <th>삭제</th>
+    </tr>
+    <tr th:each="member : ${memberList}">
+      <td th:text="${member.id}"></td>
+      <td th:text="${member.memberEmail}"></td>
+      <td th:text="${member.memberPassword}"></td>
+      <td th:text="${member.memberName}"></td>
+      <td>
+        <a th:href="@{|/member/delete/${member.id}|}">삭제</a>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 작성 폼 - Space Themed</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1e3c72 0%, #2a5298 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .planet1 {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #ffd700, #ff8c00);
+            top: 8%;
+            left: 5%;
+            box-shadow: 0 0 15px #ff8c00;
+        }
+
+        .planet2 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #87cefa, #4682b4);
+            bottom: 15%;
+            right: 8%;
+            box-shadow: 0 0 15px #4682b4;
+        }
+
+        .planet3 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ff66cc, #cc0066);
+            top: 65%;
+            right: 25%;
+            box-shadow: 0 0 10px #cc0066;
+        }
+
+        .layout {
+            width: 500px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .layout input[type="text"],
+        .layout textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .layout textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .layout button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .layout button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<!-- 배경 행성들 -->
+<div class="planet planet1"></div>
+<div class="planet planet2"></div>
+<div class="planet planet3"></div>
+
+<!-- 작성 폼 -->
+<div class="layout">
+    <form onsubmit="submitPost(event)">
+        <input id="title" type="text" placeholder="제목을 입력하세요" required>
+        <textarea id="content" placeholder="내용을 입력하세요" required></textarea>
+        <button type="submit">작성</button>
+    </form>
+</div>
+
+<script>
+    function submitPost(event) {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        fetch("/board/writepro", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                title: title,
+                content: content
+            })
+        })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    return response.text().then(text => {
+                        throw new Error(text || "작성 실패");
+                    });
+                }
+            })
+            .catch(error => {
+                alert("오류: " + error.message);
+            });
+    }
+</script>
+</body>
+</html>

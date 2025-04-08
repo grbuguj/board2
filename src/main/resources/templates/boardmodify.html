@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 수정 - Space Themed</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1e3c72 0%, #2a5298 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        .planet { position: absolute; border-radius: 50%; opacity: 0.8; }
+        .planet1 { width: 90px; height: 90px; background: radial-gradient(circle, #ffd700, #ff8c00); top: 8%; left: 5%; box-shadow: 0 0 15px #ff8c00; }
+        .planet2 { width: 70px; height: 70px; background: radial-gradient(circle, #87cefa, #4682b4); bottom: 15%; right: 8%; box-shadow: 0 0 15px #4682b4; }
+        .planet3 { width: 60px; height: 60px; background: radial-gradient(circle, #ff66cc, #cc0066); top: 65%; right: 25%; box-shadow: 0 0 10px #cc0066; }
+        .layout {
+            width: 500px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .layout input[type="text"],
+        .layout textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .layout textarea { min-height: 200px; resize: vertical; }
+        .layout button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .layout button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+<!-- 행성 배경 -->
+<div class="planet planet1"></div>
+<div class="planet planet2"></div>
+<div class="planet planet3"></div>
+
+<!-- 수정 폼 -->
+<div class="layout">
+    <form id="editForm">
+        <input id="title" name="title" type="text" th:value="${board.title}" placeholder="제목을 입력하세요">
+        <textarea id="content" name="content" th:text="${board.content}" placeholder="내용을 입력하세요"></textarea>
+        <button type="submit">수정</button>
+    </form>
+</div>
+
+<!-- JavaScript로 토큰 기반 요청 전송 -->
+<script th:inline="javascript">
+    document.getElementById("editForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const boardId = /*[[${board.id}]]*/ 0;
+        const token = localStorage.getItem("token");
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+
+        const response = await fetch(`/board/update/${boardId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ title, content })
+        });
+
+        if (response.ok) {
+            alert("게시글이 수정되었습니다.");
+            window.location.href = "/board/list";
+        } else {
+            alert("수정 실패! 권한이 없거나 오류가 발생했습니다.");
+        }
+    });
+</script>
+</body>
+</html>

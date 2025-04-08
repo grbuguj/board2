@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 - Space Themed UI</title>
+    <style>
+        /* 전체 배경: 우주 느낌의 그라데이션 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1e3c72 0%, #2a5298 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        /* 행성 요소: 배경에 추가되는 원형 디자인 */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        .planet1 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffcc33, #ff9900);
+            top: 10%;
+            left: 5%;
+            box-shadow: 0 0 20px #ff9900;
+        }
+        .planet2 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #66ccff, #3366ff);
+            bottom: 15%;
+            right: 10%;
+            box-shadow: 0 0 15px #3366ff;
+        }
+        .planet3 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ff6699, #cc3366);
+            top: 60%;
+            right: 20%;
+            box-shadow: 0 0 10px #cc3366;
+        }
+
+        /* 중앙 컨테이너 */
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            width: 350px;
+        }
+
+        /* 제목 스타일 */
+        .container h2 {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* 폼 스타일 */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+            font-size: 16px;
+            text-align: left;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #28a745;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+<!-- 행성 요소들 -->
+<div class="planet planet1"></div>
+<div class="planet planet2"></div>
+<div class="planet planet3"></div>
+
+<!-- 중앙 컨테이너: 회원가입 폼 -->
+<div class="container">
+    <h2>회원가입</h2>
+    <form action="/board/save" method="post">
+        <label for="memberEmail">이메일:</label>
+        <input type="text" id="memberEmail" name="memberEmail" placeholder="example@domain.com">
+        <label for="memberPassword">비밀번호:</label>
+        <input type="password" id="memberPassword" name="memberPassword">
+        <label for="memberName">이름:</label>
+        <input type="text" id="memberName" name="memberName">
+        <input type="submit" value="회원가입">
+    </form>
+</div>
+</body>
+</html>

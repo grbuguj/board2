@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 목록 - Space Themed UI</title>
+    <style>
+        /* 우주 배경 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1e3c72 0%, #2a5298 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        /* 행성들 */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        .planet1 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffcc33, #ff9900);
+            top: 10%;
+            left: 5%;
+            box-shadow: 0 0 20px #ff9900;
+        }
+        .planet2 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #66ccff, #3366ff);
+            bottom: 15%;
+            right: 10%;
+            box-shadow: 0 0 15px #3366ff;
+        }
+        .planet3 {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ff6699, #cc3366);
+            top: 60%;
+            right: 20%;
+            box-shadow: 0 0 10px #cc3366;
+        }
+
+        /* 게시글 레이아웃 */
+        .layout {
+            width: 700px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        /* 작성 버튼 */
+        .write-button {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        .write-button:hover {
+            background-color: #218838;
+        }
+
+        /* 테이블 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        thead tr {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+        tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        a {
+            color: #00ccff;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #66ccff;
+        }
+    </style>
+</head>
+<body>
+<!-- 행성 요소 -->
+<div class="planet planet1"></div>
+<div class="planet planet2"></div>
+<div class="planet planet3"></div>
+
+<!-- 게시글 목록 -->
+<div class="layout">
+    <a class="write-button" th:href="@{/board/write}">게시글 작성</a>
+    <button class="write-button" onclick="logout()">로그아웃</button>
+    <script>
+        function logout() {
+            localStorage.removeItem("token");
+            alert("로그아웃 되었습니다.");
+            window.location.href = "/board/index";
+        }
+    </script>
+
+    <table>
+        <thead>
+        <tr>
+            <th>글번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${list}">
+            <td th:text="${board.id}">1</td>
+            <td>
+                <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}">제목</a>
+            </td>
+            <td th:text="${board.member != null ? board.member.memberName : '작성자 없음'}">작성자</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
