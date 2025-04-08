@@ -1,0 +1,33 @@
+version: "3"
+services:
+  spring:
+    container_name: spring
+    build:
+      context: ./build/libs
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/log/:/logs/
+    depends_on:
+      - mariadb
+    networks:
+      - app-network
+    restart: always
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.6
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: Asia/Seoul
+      MARIADB_ROOT_PASSWORD: wodnd0613!~
+      MARIADB_DATABASE: board
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
