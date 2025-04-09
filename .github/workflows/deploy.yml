@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # 브랜치 이름이 'main'인지 확인하세요. 'master'가 아니라면 꼭 수정
+      - main  # main 브랜치에 push 될 때마다 실행
 
 jobs:
   deploy:
@@ -26,9 +26,7 @@ jobs:
         run: ./gradlew bootJar
 
       - name: Make deploy folder
-        run: |
-          mkdir -p deploy
-          cp ./build/libs/*.jar ./docker-compose.yml ./Dockerfile ./deploy/
+        run: mkdir -p deploy && cp ./build/libs/*.jar ./docker-compose.yml ./Dockerfile deploy/
 
       - name: Deploy to EC2
         uses: appleboy/scp-action@v0.1.5
