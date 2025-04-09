@@ -3,7 +3,7 @@ services:
   spring:
     container_name: spring
     build:
-      context: ./build/libs
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
