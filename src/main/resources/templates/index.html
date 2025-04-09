@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>안녕하세요</title>
+    <title>재웅's 게시판</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -31,6 +31,7 @@
             top: 10%;
             left: 5%;
             box-shadow: 0 0 20px #ff9900;
+            animation: float1 6s ease-in-out infinite;
         }
 
         .planet2 {
@@ -40,6 +41,7 @@
             bottom: 20%;
             right: 10%;
             box-shadow: 0 0 15px #3366ff;
+            animation: float2 7s ease-in-out infinite;
         }
 
         .planet3 {
@@ -49,6 +51,22 @@
             top: 60%;
             right: 25%;
             box-shadow: 0 0 10px #cc3366;
+            animation: float3 5s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(24px) rotate(-10deg); }
+        }
+
+        @keyframes float3 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
         .container {
@@ -118,10 +136,21 @@
 <!-- 중앙 컨테이너 -->
 <div class="container">
     <h2>재웅's 게시판</h2>
-    <a class="btn list" href="/board/list">게시글목록이지롱</a>
+    <a class="btn list" href="/board/list">게시글목록</a>
     <a class="btn signup" href="/board/save">회원가입</a>
     <a class="btn" href="/board/login">로그인</a>
     <a class="btn member" href="/member/">회원목록</a>
+</div>
+<div style="
+    position: absolute;
+    bottom: 10px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    width: 100%;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+  ">
+    2025-04-09 깃허브 이용한 도커AW3 자동배포 성공! by 재웅
 </div>
 </body>
 </html>
