@@ -26,7 +26,8 @@ jobs:
         run: ./gradlew bootJar
 
       - name: Make deploy folder
-        run: mkdir -p deploy && cp build/libs/*.jar docker-compose.yml Dockerfile deploy/
+        run: mkdir -p deploy && cp build/libs/*.jar docker-compose.yml deploy/Dockerfile deploy/
+
 
       - name: Deploy to EC2
         uses: appleboy/scp-action@v0.1.5
