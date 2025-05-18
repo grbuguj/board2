@@ -37,6 +37,7 @@ public class MemberController {
         memberService.save(memberDTO);
         return "login";
     }
+
     @GetMapping("/board/login")
     public String loginForm()  {
         return "login";

@@ -113,19 +113,25 @@
 
         const title = document.getElementById("title").value;
         const content = document.getElementById("content").value;
-        const token = localStorage.getItem("token");
 
-        if (!token) {
-            alert("로그인이 필요합니다.");
+        if (!title || !content) {
+            alert("제목과 내용을 입력해주세요.");
             return;
+        }
+
+        const token = localStorage.getItem("token");
+        const headers = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        };
+        if (token) {
+            headers["Authorization"] = "Bearer " + token;
         }
 
         fetch("/board/writepro", {
             method: "POST",
-            headers: {
-                "Authorization": "Bearer " + token,
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
+            headers: headers,
+            credentials: "include" // ✅ 세션 로그인 허용
+            ,
             body: new URLSearchParams({
                 title: title,
                 content: content
@@ -144,6 +150,7 @@
                 alert("오류: " + error.message);
             });
     }
+
 </script>
 </body>
 </html>

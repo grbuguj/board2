@@ -8,6 +8,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -23,11 +26,26 @@ public class Boardcontroller {
 
     @PostMapping("/board/writepro")
     public String writePro(@ModelAttribute Board board,
-                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
-        String loginEmail = extractEmailFromToken(authHeader);
+                           @AuthenticationPrincipal OAuth2User oAuth2User) {
+
+        String loginEmail;
+
+        if (oAuth2User != null) {
+            loginEmail = (String) oAuth2User.getAttributes().get("email");
+            if (loginEmail == null) {
+                // 카카오 로그인일 경우 직접 email 대체 생성
+                String provider = "kakao";
+                String providerId = String.valueOf(oAuth2User.getAttributes().get("id"));
+                loginEmail = provider + "_" + providerId + "@socialuser.com";
+            }
+        } else {
+            throw new IllegalStateException("로그인 정보 없음");
+        }
+
         boardService.write(board, loginEmail);
         return "redirect:/board/list";
     }
+
 
     @GetMapping("/board/list")
     public String boardList(Model model) {

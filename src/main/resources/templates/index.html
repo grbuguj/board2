@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <title>재웅's 게시판</title>
@@ -125,6 +127,15 @@
         .btn.list {
             border-color: deepskyblue;
         }
+
+        .btn.google {
+            border-color: #db4437;
+        }
+
+        .btn.google:hover {
+            background: rgba(219, 68, 55, 0.2);
+            box-shadow: 0 0 10px rgba(219, 68, 55, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -136,11 +147,30 @@
 <!-- 중앙 컨테이너 -->
 <div class="container">
     <h2>재웅's 게시판</h2>
-    <a class="btn list" href="/board/list">게시글 목록</a>
-    <a class="btn signup" href="/board/save">회원가입</a>
-    <a class="btn" href="/board/login">로그인</a>
-    <a class="btn member" href="/member/">회원목록</a>
+        <a class="btn signup" href="/board/save">회원가입</a>
+        <a class="btn" href="/board/login">로그인</a>
+        <a class="btn list" href="/board/list">게시글 목록</a>
+        <a class="btn member" href="/member/">회원목록</a>
+        <a class="btn" onclick="handleLogout()">로그아웃</a>
+
+    <div style="margin-top: 20px;">
+        <a class="btn google" href="/oauth2/authorization/google">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                 alt="Google logo" style="height: 18px; vertical-align: middle; margin-right: 8px;">
+            구글 로그인
+        </a>
+
+        <a class="btn btn-kakao" href="/oauth2/authorization/kakao">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg"
+                 alt="Google logo" style="height: 18px; vertical-align: middle; margin-right: 8px;">
+            카카오 로그인
+        </a>
+    </div>
 </div>
+
+
+
+
 <div style="
     position: absolute;
     bottom: 10px;
@@ -154,3 +184,14 @@
 </div>
 </body>
 </html>
+
+<script>
+    // JWT 로그아웃 처리
+    function handleLogout() {
+        // 로컬스토리지에서 토큰 삭제
+        localStorage.removeItem("accessToken");
+
+        // 이후 서버 로그아웃도 호출 (소셜 로그인일 경우만 해당)
+        window.location.href = "/logout";
+    }
+</script>
